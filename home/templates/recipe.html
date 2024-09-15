@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block start %}
+
+<!-- Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom Styles -->
+<style>
+    .ok {
+        color: white;
+        text-decoration: none;
+    }
+    .ok:hover {
+        color: white;
+        text-decoration: none;
+    }
+    .generate-pdf-btn {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="container mt-3 col-8">
+    <br><br>
+    <!-- Form for Adding a Recipe -->
+    <form class="col-12 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h4>Add Recipe</h4>
+        <hr>
+        <div class="form-group">
+            <label for="day">Day-Time</label>
+            <input type="text" id="day" name="day" class="form-control" placeholder="Enter day and time" required>
+        </div>
+        <div class="form-group">
+            <label for="name">Recipe Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter recipe name" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="5" placeholder="Enter recipe description"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Data</button>
+    </form>
+    <hr>
+    <div class="mt-5">
+        <!-- Generate PDF Button -->
+        <a href="{% url 'pdf' %}" class="btn btn-danger generate-pdf-btn">Generate Plan</a>
+
+        <!-- Recipe List Table -->
+        <table class="table mt-6">
+            <thead>
+                <tr>
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Day-Time</th>
+                    <th scope="col">Recipe Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ recipe.day }}</td>
+                    <td>{{ recipe.name }}</td>
+                    <td>{{ recipe.description }}</td>
+                    <td>
+                        <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="{% url 'update_recipe' recipe.id %}" class="btn btn-warning btn-sm">Update</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No recipes available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

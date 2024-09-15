@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block start %}
+
+<!-- Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .form-container {
+        margin-top: 30px;
+        max-width: 600px;
+    }
+    .form-card {
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="container form-container">
+    <form class="form-card card mx-auto" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="day">Day-Time</label>
+            <input type="text" id="day" name="day" class="form-control" value="{{ recipe.day }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Recipe</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{ recipe.name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="5" required>{{ recipe.description }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Data</button>
+    </form>
+</div>
+
+{% endblock %}
